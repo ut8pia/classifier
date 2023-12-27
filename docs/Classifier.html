@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: Classifier</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: Classifier</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>Classifier<span class="signature">(sorter<span class="signature-attributes">opt</span>, root<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description"><p>The <a href="Classifier.html"><code>Classifier</code></a> is a <a href="Collection.html"><code>Collection</code></a> of arrays. Each arrays is stored
+within a tree structure in the form of a path of <a href="Classifier.Node.html"><code>Node</code></a>s.</p>
+<p>Unlike traditional collections, however, the <a href="Classifier.html"><code>Classifier</code></a> has the unique capability to store
+multiple instances of the same array while keeping track of the overall count of occurrences.
+This distinct functionality has implications for certain methods in the <a href="Collection.html"><code>Collection</code></a> interface,
+such as:</p>
+<ul>
+<li><a href="#n">n()</a></li>
+<li><a href="#add">add()</a></li>
+</ul>
+<p>as they can now accept optional arguments to manage the multiple occurrences of arrays efficiently.</p>
+<p>Furthermore, the Classifier's tree-like structure allows it to provide hierarchical methods:</p>
+<ul>
+<li><a href="#class">class()</a></li>
+<li><a href="#space">space()</a></li>
+<li><a href="#view">view()</a></li>
+<li><a href="#views">views()</a></li>
+</ul>
+<p>Out of these methods, the most significant ones are the <a href="#class">class()</a> and <a href="#view">view()</a> methods.</p>
+<p>A helpful way to conceptualize the <a href="Classifier.html"><code>Classifier</code></a> is to think of it as a Map.
+Unlike a traditional Map where entries are limited to couples <code>[key, value]</code> and only one
+entry can be associated to each <code>key</code>, here:</p>
+<ul>
+<li>The entries can consist of arrays of varying lengths</li>
+<li>Multiple entries can share same <code>key</code></li>
+<li>Each component of the array can serve as <code>key</code>.</li>
+</ul>
+<p>However, the ultimate goal for the <a href="Classifier.html"><code>Classifier</code></a> is to facilitate the implementation
+of <code>representation-based</code> equivalences among objects. You can delve into these concepts in-depth, complete with example code, by referring to
+the booklet:</p>
+<p>Venditti, R. (2023). <em><a href="https://www.amazon.com/dp/B0CN6ZMVPT/ref=sr_1_1?crid=322H7PNQQ8K1B&amp;keywords=roberto+venditti&amp;qid=1699881065&amp;sprefix=robert+venditti%2Caps%2C380&amp;sr=8-1">Classifier.js: Idea, Design, and Use Cases</a></em>. Amazon KDP</p></div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+    <h2>Constructor</h2>
+    
+
+    
+    <h4 class="name" id="Classifier"><span class="type-signature"></span>new Classifier<span class="signature">(sorter<span class="signature-attributes">opt</span>, root<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>The <a href="Classifier.html"><code>Classifier</code></a> is a <a href="Queue.html"><code>Queue</code></a> of arrays that employs a
+pair of properties:</p>
+<ul>
+<li><a href="#sorter">sorter</a></li>
+<li><a href="#root">root</a></li>
+</ul>
+<p>to collect arrays in an internal tree structure.</p>
+<p>Optionally, these properties can be passed to the <a href="Classifier.html"><code>Classifier</code></a> constructor.</p>
+<p>A further properties:</p>
+<ul>
+<li><a href="#defaultView">defaultView</a></li>
+</ul>
+<p>is implicitly created by the constructor.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sorter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    ()=>ORDER.ASCENDING
+                
+                </td>
+            
+
+            <td class="description last"><p>A <code>function(path, key)</code> returning a comparator in correspondence of a <code>path </code>and a <code>key</code> as arguments</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>root</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Classifier.Node.html">Classifier.Node</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The <a href="#root">root</a> node for the inner tree structure</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="Classifier.html">Classifier</a></dt>
+            <dd></dd>
+        
+            <dt><a href="Classifier.Node.html">Node</a></dt>
+            <dd></dd>
+        
+            <dt><a href="Classifier.View.html">View</a></dt>
+            <dd></dd>
+        </dl>
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="defaultView"><span class="type-signature"></span>defaultView<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>The <a href="Classifier.View.html"><code>View</code></a> representing the whole tree.
+Every <a href="Classifier.html"><code>Classifier</code></a> method merely calls a corresponding method of its <a href="#defaultView">defaultView</a>.</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="Classifier.View.html"><code>View</code></a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="root"><span class="type-signature"></span>root<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>The root node</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="sorter"><span class="type-signature"></span>sorter<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>A <code>function(path, key)</code> returning a comparator.</p>
+<p>This function plays a crucial role in the context of the <a href="Classifier.html"><code>Classifier</code></a>.
+Its primary purpose is to determine the comparator used when creating a new <a href="Classifier.Node.html"><code>Node</code></a>.
+This comparator is intended to sort the children of the newly
+created node in a <a href="SortedArray.html"><code>SortedArray</code></a>.</p>
+<p>When the function is called, it takes two arguments:</p>
+<ul>
+<li>the <code>path</code> argument, which is a path of entries <code>[index, child]</code> addressing the Node to be created</li>
+<li>the <code>key</code> argument, which is the key to be stored in the new Node.</li>
+</ul>
+<p>In cases where the <code>sorter</code> function doesn't provide a comparator, the <a href="Classifier.html"><code>Classifier</code></a> defaults to
+sorting the children of the new node based on the order of their insertion, using an <a href="ArrayQueue.html"><code>ArrayQueue</code></a>.</p>
+<p>It's worth noting that the expected comparator is a <code>key</code> comparator, not a <a href="Classifier.Node.html"><code>Node</code></a> comparator.
+The Classifier is tasked with converting this <code>key</code> comparator into the appropriate <a href="Classifier.Node.html"><code>Node</code></a> comparator,
+which is subsequently passed to the <a href="SortedArray.html"><code>SortedArray</code></a> constructor.</p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="add"><span class="type-signature"></span>add<span class="signature">(keys, value)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Adds the given item to <code>this</code> <a href="Collection.html"><code>Collection</code></a>. The item is represented by
+an iteration of <code>keys</code>.</p>
+<p>The same item can be added multiple times. Even fractions of the item can be either
+added or removed (by adding negative values).</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>keys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Iterable.&lt;*></span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>iteration of anything</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last"><p>any number, even negative or fractional</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>true only if some new <a href="Classifier.Node.html"><code>Node</code></a> is created</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="class"><span class="type-signature"></span>class<span class="signature">(&hellip;keys)</span><span class="type-signature"> &rarr; {Each.&lt;Array.&lt;*>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Retrieves all arrays containing the specified <code>keys</code> by calling the corresponding
+<code>class(...keys)</code> methods of its <a href="#defaultView">defaultView</a>. Consequently, are returned
+absolute arrays.</p>
+<p>It's crucial to highlight that the provided <code>keys</code> are not required to be heading <code>keys</code>.
+In essence, some of the provided <code>keys</code> may be <code>undefined</code>.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>keys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Repeatable.&lt;*></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The given, also scattered, <code>keys</code></p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>All the arrays containing the given <code>keys</code></p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Each.&lt;Array.&lt;*>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const 
+    classifier = new Classifier()
+        .let('a', 0)
+            .let('b', 1),
+                .let('c', 1),
+    cls = classifier.class(undefined, 1);
+
+assert.deepEqual(cls.toArray(), [['b', 1], ['c', 1]])</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="n"><span class="type-signature"></span>n<span class="signature">(keys<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Because the <a href="Classifier.html"><code>Classifier</code></a> can store multiple occurrences of the same array,
+the methods <code>n()</code> from the <a href="Collection.html"><code>Collection</code></a> interface can accommodate an optional <code>item</code> argument.
+When you provide this argument, it limits the count to the number of occurrences
+of the specified <code>item</code>.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>keys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Iterable.&lt;*></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>If defined, the count is restricted to the given <code>keys</code></p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="space"><span class="type-signature"></span>space<span class="signature">(&hellip;keys)</span><span class="type-signature"> &rarr; {What}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>The primary purpose of this method is to provide formal definition of the search space
+that encompasses all paths of <a href="Classifier.Node.html"><code>Node</code></a>s containing
+the specified keys.</p>
+<p>The method is designed to handle scattered <code>keys</code> as input.
+If you don't provide any <code>keys</code>, it will by default return the space of the entire
+<a href="Classifier.html"><code>Classifier</code></a>, which can still be quite valuable. You have the flexibility to merge
+the returned space with other spaces or fine-tune it using custom predicates to suit
+your needs.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>keys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Repeatable.&lt;*></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The given keys</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>A search space of paths of entries [index, <a href="Classifier.Node.html"><code>Node</code></a>]</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">What</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="view"><span class="type-signature"></span>view<span class="signature">(direct<span class="signature-attributes">opt</span>, keys)</span><span class="type-signature"> &rarr; {<a href="Classifier.View.html">Classifier.View</a>|undefined}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>An instance of the class <a href="Classifier.View.html"><code>View</code></a> representing the subtree
+addressed by the given keys.
+The <a href="Classifier.View.html"><code>View</code></a> provides all the functionalities
+of a <a href="Classifier.html"><code>Classifier</code></a>.</p>
+<p>Nonetheless, the <a href="Classifier.View.html"><code>View</code></a> is merely an interface.
+Every modification of the <a href="Classifier.View.html"><code>View</code></a>
+directly affects the main <a href="Classifier.html"><code>Classifier</code></a> tree.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>direct</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+
+            <td class="description last"><p>if set to <code>false</code> the <a href="Classifier.html"><code>Classifier</code></a> will appear in reverse order</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Iterable.&lt;*></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>the <code>keys</code> addressing a subtree</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>a <a href="Classifier.View.html"><code>View</code></a> to handle the subtree as a <a href="Classifier.html"><code>Classifier</code></a> of relative arrays</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Classifier.View.html">Classifier.View</a></span>
+|
+
+<span class="param-type">undefined</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="views"><span class="type-signature"></span>views<span class="signature">(min, max, &hellip;keys)</span><span class="type-signature"> &rarr; {Each.&lt;<a href="Classifier.View.html">Classifier.View</a>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>All the <a href="Classifier.View.html"><code>View</code></a>s
+whose paths have lengths in the range <code>[min, max]</code> and contain the given <code>keys</code>.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>min</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>the minimal depth</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>max</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>the maximal depth</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">any</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p><code>keys</code> to filter only certain paths in the provided range of depths</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>an iteration of <a href="Classifier.View.html"><code>View</code></a>s</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Each.&lt;<a href="Classifier.View.html">Classifier.View</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".of"><span class="type-signature">(static) </span>of<span class="signature">(&hellip;comparators)</span><span class="type-signature"> &rarr; {<a href="Classifier.html">Classifier</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>This static method instantiates a <a href="Classifier.html"><code>Classifier</code></a> from a list of <code>key</code> comparators.
+Such a list implicitly defines the sorter:</p>
+<pre class="prettyprint source lang-javascript"><code>(path, key) => comparators[path.length]
+</code></pre>
+<p>to be passed to the <a href="Classifier.html"><code>Classifier</code></a> constructor.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>comparators</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">any</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The list of <code>key</code> comparators</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>A <a href="Classifier.html"><code>Classifier</code></a> instance</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Classifier.html">Classifier</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-core.html">core</a></li><li><a href="module-queue.html">queue</a></li></ul><h3>Classes</h3><ul><li><a href="ArrayQueue.html">ArrayQueue</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Classifier.Node.html">Node</a></li><li><a href="Classifier.View.html">View</a></li><li><a href="Collection.html">Collection</a></li><li><a href="CommonCollection.html">CommonCollection</a></li><li><a href="Queue.html">Queue</a></li><li><a href="SortedArray.html">SortedArray</a></li><li><a href="TrueSet.html">TrueSet</a></li></ul><h3>Global</h3><ul><li><a href="global.html#ORDER">ORDER</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Dec 26 2023 07:32:41 GMT+0100 (Ora standard dell’Europa centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

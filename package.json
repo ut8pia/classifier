@@ -1,0 +1,54 @@
+{
+  "name": "@ut8pia/classifier",
+  "version": "0.0.1-17",
+  "description": "Javascript Sorted Collections",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ut8pia/classifier.git"
+  },
+  "keywords": [
+    "Javascript",
+    "collections",
+    "sorted"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "author": "roberto venditti <rvend@libero.it>",
+  "files": [
+    "README.md",
+    "trg/classifier.js",
+    "src/main/"
+  ],
+  "type": "module",
+  "devDependencies": {
+    "@babel/cli": "^7.22.5",
+    "@babel/core": "^7.22.5",
+    "@babel/preset-env": "^7.22.5",
+    "assert": "2.0.0",
+    "babel-loader": "^9.1.2",
+    "mocha": "10.2.0",
+    "path": "^0.12.7",
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "exports": {
+    "./*": "./src/main/*"
+  },
+  "scripts": {
+    "test": "mocha --recursive ./src/test/node ./src/book/src/test",
+    "doc": "jsdoc -r -c ./jsdoc.json --readme ./README.md",
+    "build": "webpack --mode production"
+  },
+  "bugs": {
+    "url": "https://github.com/@ut8pia/classifier/issues"
+  },
+  "homepage": "https://github.com/@ut8pia/classifier#readme",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {
+    "@ut8pia/fluent": "^0.0.1-12"
+  }
+}
