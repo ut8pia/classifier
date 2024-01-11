@@ -5,25 +5,40 @@
     <meta charset="UTF-8" />
     <meta name="ArrayQueue debug" content="debug bundle" />
     <!-- Additional meta tags, stylesheets, scripts, etc. can be added here -->
-    <script src="../../../../trg/classifier.bundle.js"></script>
+    <!-- Downloads and executes the classifier.bundle.js file -->
+    <script src="https://cdn.jsdelivr.net/npm/@ut8pia/classifier@0.0.1-19/trg/classifier.bundle.js"></script>
+
+    <!-- Shortcuts to TrueSet and ORDER -->
+    <script>
+        var 
+            TrueSet = classifier.queue.TrueSet,
+            ORDER = classifier.global.ORDER
+    </script>
 </head>
 <body>
-    <header>
-        <h1>Your Page Header</h1>
-    </header>
+    <script>
+        
+        const 
+            data = [
+                ["ik", "p", "I; me", 1],
+                ["pat", "pre", "plus", 1],
+                ["qeol", "adj", "only", 1],
+                ["nei", "adj", "not", 1]
+            ],
 
-    <main>
-        <p>Your main content here.</p>
-        <!-- Your main content goes here -->
-    </main>
+            expected = [
+                ["ik", "p", "I; me", 1],
+                ["nei", "adj", "not", 1],
+                ["qeol", "adj", "only", 1],
+                ["pat", "pre", "plus", 1]
+            ],           
 
-    <footer>
-        <p>Your footer content here.</p>
-        <!-- Your footer content goes here -->
-    </footer>
+            alphabet = Array.from(' abcdefghijklmnqoprstuvwxyz'),
+            order = new Map(alphabet.map((char, i) => [char, i])),
+            repr = item => order.get(item[0][0]),
 
-    <script type="text/javascript">
-        const queue = new classifier.queue.ArrayQueue();
+            set = TrueSet.of(repr, ORDER.ASCENDING)
+                .letAll(data);
     </script>
 </body>
 </html>

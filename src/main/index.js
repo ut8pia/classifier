@@ -7,6 +7,7 @@ import { SortedArray } from "./queue/SortedArray.js";
 import { Classifier } from "./queue/Classifier.js";
 import { CommonCollection } from "./queue/CommonCollection.js";
 import { TrueSet } from "./queue/TrueSet.js";
+import { ORDER } from './global.js';
 
 /**
  * The `core` package comprises two abstract classes:
@@ -52,4 +53,11 @@ export const queue = {
     Classifier,
     CommonCollection,
     TrueSet
+}
+
+/**
+ * The `global` object offers constants
+ */
+export const global = {
+    ORDER
 }

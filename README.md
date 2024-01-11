@@ -15,7 +15,7 @@ For an HTML page, the process is equally straightforward:
 	const queue = new classifier.queue.ArrayQueue();
 </script>
 ```
-To access the `classifier.bundle.js` script file, head to the `trg` folder within the [GitHub](https://github.com/ut8pia/classifier/tree/main/trg) repository. This script establishes a global variable `classifier` within your browser's environment. This variable enables the creation of different queues provided by the library.
+The `classifier.bundle.js` script file is publicly available on the `jsdelivr` CDN at the URL https://cdn.jsdelivr.net/npm/@ut8pia/classifier@0.0.1-19/trg/classifier.bundle.js. When executed, this script establishes a global variable, `classifier`, within your browser's environment, providing hierarchical access to all the library's content.
 
 For the most up-to-date and comprehensive documentation, visit the library's [pages](https://ut8pia.github.io/classifier).
 

@@ -1,6 +1,6 @@
 {
   "name": "@ut8pia/classifier",
-  "version": "0.0.1-17",
+  "version": "0.0.1-19",
   "description": "Javascript Sorted Collections",
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
   "author": "roberto venditti <rvend@libero.it>",
   "files": [
     "README.md",
-    "trg/classifier.js",
+    "trg/classifier.bundle.js",
     "src/main/"
   ],
   "type": "module",
